@@ -1,0 +1,52 @@
+
+// Factory Method
+
+///Define an Interface for creating an object, but let subclasses decide which class to instatntiate.
+///Factory method lets a class defer the instantation to subclasses
+protocol CreateAccountCreater {
+    func createAccount()
+}
+
+class SavingsAccount: CreateAccountCreater {
+    func createAccount() {
+        print("createdSavingsAccouny")
+    }
+}
+
+class LoanAccount: CreateAccountCreater {
+    func createAccount() {
+        print("createdloanAccouny")
+    }
+}
+
+class PersonalAccount: CreateAccountCreater {
+    func createAccount() {
+        print("createdpersonaLAccouny")
+    }
+}
+
+protocol CreateAccountFactory {
+    func createTheAccount(for account: AccountTypes) -> CreateAccountCreater
+}
+
+enum AccountTypes {
+        case savings, personal, loan
+}
+
+class CreateAccountClass: CreateAccountFactory {
+    func createTheAccount(for account: AccountTypes) -> CreateAccountCreater {
+        switch account {
+        case .loan:
+            return LoanAccount()
+        case .savings:
+            return SavingsAccount()
+        case .personal:
+            return PersonalAccount()
+        }
+    }
+}
+
+let createAccount: CreateAccountFactory = CreateAccountClass()
+print(createAccount.createTheAccount(for: .personal).createAccount())
+print(createAccount.createTheAccount(for: .loan).createAccount())
+print(createAccount.createTheAccount(for: .savings).createAccount())
