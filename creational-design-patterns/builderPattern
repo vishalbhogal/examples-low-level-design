@@ -1,0 +1,113 @@
+//MARK: Builder Pattern
+
+/// seperates the creation of complex objects from its representation so that same construction process can be used to creat different object representations
+import UIKit
+
+
+// Builder
+protocol TextConverterBuildable {
+    func convertCharacter(_ char: Character)
+    func convertFontChange(_ font: UIFont)
+    func convertParagraph()
+}
+
+extension TextConverterBuildable {
+    func convertCharacter(_ char: Character) {}
+    func convertFontChange(_ font: UIFont) {}
+    func convertParagraph() {}
+}
+
+// MARK: Concrete Builders
+
+/// ASCII Converter
+class AsciiConverter: TextConverterBuildable {
+    func convertCharacter(_ char: Character) -> AsciiConverter {
+        print("\(char) conversion completed to ASCII char")
+        return self
+    }
+    
+    func getAsciiText() -> AsciiConverter {
+        return AsciiConverter()
+    }
+}
+
+/// TexConverter
+class TexConverter: TextConverterBuildable {
+    func convertCharacter(_ char: Character) -> TexConverter {
+        print("\(char) conversion completed to TexConverter char")
+        return self
+    }
+    
+    func convertFontChange(_ font: UIFont) -> TexConverter {
+        print("\(font) change is completed to TexConverter font")
+        return self
+    }
+    
+    func convertParagraph() -> TexConverter {
+        print("Paragraph converted to TexConverter format")
+        return self
+    }
+    
+    func getTexTText() -> TexConverter {
+        return TexConverter()
+    }
+}
+
+/// TextWidgetConverter
+class TextWidgetConverter: TextConverterBuildable {
+    func convertCharacter(_ char: Character) -> TextWidgetConverter {
+        print("\(char) conversion completed to TextWidgetConverter char")
+        return self
+    }
+    
+    func convertFontChange(_ font: UIFont) -> TextWidgetConverter {
+        print("\(font) change is completed to TextWidgetConverter font")
+        return self
+    }
+    
+    func convertParagraph() -> TextWidgetConverter {
+        print("Paragraph converted to TextWidgetConverter format")
+        return self
+    }
+    
+    func getTextWidget() -> TextWidgetConverter {
+        return TextWidgetConverter()
+    }
+}
+
+
+enum Converters {
+    case asciiConverter, textConverter, textWidgetConverter
+}
+
+
+//MARK: Director
+class RTFReaderDirector {
+    var builder: TextConverterBuildable? = nil
+    
+    func parseRTF(to format: Converters, char: Character, font: UIFont) {
+        switch format {
+        case .asciiConverter:
+            builder = AsciiConverter()
+                .convertCharacter(char)
+                .getAsciiText()
+
+            return
+        case .textConverter:
+            builder = TexConverter()
+                .convertFontChange(font)
+                .convertCharacter(char)
+                .convertParagraph()
+                .getTexTText()
+            
+            return
+        case .textWidgetConverter:
+            builder = TextWidgetConverter()
+                .convertCharacter(char)
+                .convertFontChange(font)
+                .convertParagraph()
+                .getTextWidget()
+            return
+        }
+    }
+}
