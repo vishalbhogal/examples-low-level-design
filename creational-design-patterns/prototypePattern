@@ -1,0 +1,36 @@
+//MARK: Prototype Pattern
+
+/// specifies the kind of objects to create using prototypical instance, and create new objects by copying this protoype
+
+//Prototype
+protocol Cloneable {
+    func clone() -> Self
+}
+
+
+//ConcretePrototype
+class iPhone: Cloneable {
+    var model: String
+    var iOSVersion: Float
+    var batteryCapacity: Int
+    
+    required init(model: String, iOSVersion: Float, batteryCapacity: Int) {
+        self.model = model
+        self.iOSVersion = iOSVersion
+        self.batteryCapacity = batteryCapacity
+    }
+    
+    func clone()  -> Self {
+         print("iPhone class is cloned")
+         return type(of: self).init(model: model, iOSVersion: iOSVersion, batteryCapacity: batteryCapacity)
+    }
+}
+
+let iPhone12Mini = iPhone(model: "12mini", iOSVersion: 16.3, batteryCapacity: 2000)
+
+var iPhone12Pro = iPhone12Mini.clone()
+
+iPhone12Pro.model = "iphone12Pro"
+
+print(iPhone12Mini.model)
+print(iPhone12Pro.model)
