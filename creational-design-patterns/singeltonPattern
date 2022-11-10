@@ -39,3 +39,10 @@ object2.count = 1
 print("object info: \(object.name) and \(object.count)")
 print("object2 info: \(object2.name) and \(object2.count)")
 
+
+/// Console:
+// object info: object and 1
+// object2 info: object and 1
+// ---------------------------------------------------
+// object info: object2 and 1
+// object2 info: object2 and 1
