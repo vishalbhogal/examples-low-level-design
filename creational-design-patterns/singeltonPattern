@@ -1,0 +1,41 @@
+
+//MARK: Singelton Pattern
+
+/// Ensures a class has only one single instance and provides a global point of access to it
+
+
+class Singelton {
+    
+    static let shared = Singelton()
+    var count = 0
+    var name = "singelton class"
+    private init() {
+        
+    }
+    
+    func foo() {
+        print("foo called with name \(name) and \(count)")
+    }
+    
+    func foo1() {
+        print("foo1 called")
+    }
+}
+
+let object = Singelton.shared
+let object2 = Singelton.shared
+
+object.name = "object"
+object.count = 1
+
+print("object info: \(object.name) and \(object.count)")
+print("object2 info: \(object2.name) and \(object2.count)")
+
+print("---------------------------------------------------")
+
+object2.name = "object2"
+object2.count = 1
+
+print("object info: \(object.name) and \(object.count)")
+print("object2 info: \(object2.name) and \(object2.count)")
+
