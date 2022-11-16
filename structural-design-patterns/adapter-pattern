@@ -1,0 +1,54 @@
+
+//MARK: Adapter Pattern
+
+/// Allows exisiting classes to use the interface that clients expect
+
+
+
+// Adaptee
+struct AnalyticsHandler {
+    
+    func handleTrackingEvents() {
+        print("Rerouted to Main Analytics Handler")
+    }
+}
+
+// Client Interface
+protocol AnalyticsTrackable {
+    func trackTapActions()
+}
+
+
+// Adapter/Wrapper
+class NormalAnalyticsHelper: AnalyticsTrackable {
+    private let analyticsHandler: AnalyticsHandler = AnalyticsHandler()
+    
+    func trackTapActions() {
+        print("Normal Analytics Helper called")
+        analyticsHandler.handleTrackingEvents()
+    }
+}
+
+
+//Client code
+class Client {
+    private let analyticsTracker: AnalyticsTrackable
+    
+    init(analyticsTracker: AnalyticsTrackable) {
+        self.analyticsTracker = analyticsTracker
+    }
+    
+    func openHomeScreen() {
+        analyticsTracker.trackTapActions()
+    }
+}
+
+let analyticsHandler = NormalAnalyticsHelper()
+let client = Client(analyticsTracker: analyticsHandler)
+
+client.openHomeScreen()
+
+
+// Console Output:
+/// Normal Analytics Helper called
+///Rerouted to Main Analytics Handler
