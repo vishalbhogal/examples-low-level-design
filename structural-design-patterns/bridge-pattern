@@ -1,0 +1,68 @@
+// ##Bridge Pattern swift
+
+/// this pattern allows abstraction to be decoupled from implementation so that both can exist indedpendently
+/// it is focussed around composition
+
+
+// Abstract Class
+protocol Vehicle {
+    func createVehicle()
+}
+
+// Level - 1 Inheritance
+class Car: Vehicle {
+    private let engine: Engine
+    
+    init(engine: Engine) {
+        self.engine = engine
+    }
+    
+    func createVehicle() {
+        print("created Car")
+        engine.fillFuel()
+    }
+}
+
+class Bike: Vehicle {
+    func createVehicle() {
+        print("created bike")
+    }
+}
+
+// Now we need Cars with Diesel engine
+
+class DieselCar: Car {
+    override func createVehicle() {
+        print("created Diesel car")
+    }
+}
+
+// But this will lead to second level of Inheritance
+
+protocol Engine {
+    func fillFuel()
+}
+
+class DieselEngineFactory: Engine {
+    func fillFuel() {
+        print("created Diesel car")
+    }
+}
+
+class PetrolEngineFactory: Engine {
+    func fillFuel() {
+        print("created Petrol car")
+    }
+}
+
+// Now we can add this reference to Cars, as its composition
+// Now we dont need inheritance for Diesel car
+// This way Vehicle & Engine can live independetly
+
+let engine: Engine = DieselEngineFactory()
+let car: Vehicle = Car(engine: engine)
+car.createVehicle()
+
+///Console:
+// created Car
+// created Diesel car
