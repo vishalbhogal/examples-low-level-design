@@ -1,0 +1,64 @@
+// Composite Pattern
+/// compose objects into tree like structures, it allows Clients to treat individual objects and composite objects uniformly
+///
+
+protocol GraphicComponent {
+    func draw()
+    func add(graphic: GraphicComponent)
+    func remove(graphic: GraphicComponent)
+    func getChild(_ child: Int)
+}
+
+extension GraphicComponent {
+    func add(graphic: GraphicComponent) { }
+    func remove(graphic: GraphicComponent) { }
+    func getChild(_ child: Int) { }
+}
+
+// Individual/Primitive Objects
+struct LinePrimitive: GraphicComponent {
+    func draw() {
+        print("drew Line Graphic")
+    }
+}
+
+struct RectanglePrimitive: GraphicComponent {
+    func draw() {
+        print("drew Rectangle Graphic")
+    }
+}
+struct TextPrimitive: GraphicComponent {
+    func draw() {
+        print("drew Text Graphic")
+    }
+}
+
+// Composite Object
+class PictureComposite: GraphicComponent {
+    private var primitiveComponents: [GraphicComponent]
+    
+    init(primitiveComponents: [GraphicComponent]) {
+        self.primitiveComponents = primitiveComponents
+    }
+    
+    func draw() {
+        primitiveComponents.forEach { $0.draw() }
+    }
+    
+    func add(graphic: GraphicComponent) {
+        primitiveComponents.append(graphic)
+    }
+    
+    func remove(graphic: GraphicComponent) {
+        primitiveComponents.removeLast()
+    }
+    
+    func getChild(_ child: Int) {
+        
+    }
+}
+
+
+let primitives: [GraphicComponent] = [LinePrimitive(), RectanglePrimitive(), TextPrimitive()]
+let composite = PictureComposite(primitiveComponents: primitives)
+composite.draw()
